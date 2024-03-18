@@ -1,0 +1,109 @@
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+           <!--- <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Table #03</h2>
+            </div>-->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="text-center mb-4">Please Make an Evaluation to can know more about your opinion</h4>
+                <form  [formGroup]="evaluationForm" (ngSubmit)="onSubmit()" >
+                <div class="table-wrap">
+                    <table class="table">
+                    <thead class="thead-primary">
+                      <tr >
+                        <th><strong>Questions</strong></th>
+                        <th><Strong>Evaluations</Strong></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr>
+                        <th scope="row" class="scope" >
+                          The presentation of the course</th>
+
+                        <td><input type="radio" formControlName="Question1" [value]="evaluation1">1
+                          <input type="radio" formControlName="Question1" [value]="evaluation2">2
+                          <input type="radio" formControlName="Question1" [value]="evaluation3">3
+                          <input type="radio" formControlName="Question1" [value]="evaluation4">4
+                        </td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row" class="scope" >
+                          The adopted pedagogy</th>
+                        <td><input type="radio" formControlName="Question2" [value]="evaluation1">1
+                          <input type="radio" formControlName="Question2" [value]="evaluation2">2
+                          <input type="radio" formControlName="Question2" [value]="evaluation3">3
+                          <input type="radio" formControlName="Question2" [value]="evaluation4">4</td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row" class="scope" >The adaptation of learning activities to the course objectives</th>
+                        <td><input type="radio" formControlName="Question3" [value]="evaluation1">1
+                          <input type="radio" formControlName="Question3" [value]="evaluation2">2
+                          <input type="radio" formControlName="Question3" [value]="evaluation3">3
+                          <input type="radio" formControlName="Question3" [value]="evaluation4">4</td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row" class="scope" >The workload associated with the course</th>
+                        <td><input type="radio" formControlName="Question4" [value]="evaluation1">1
+                          <input type="radio" formControlName="Question4" [value]="evaluation2">2
+                          <input type="radio" formControlName="Question4" [value]="evaluation3">3
+                          <input type="radio" formControlName="Question4" [value]="evaluation4">4</td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row" class="scope" >
+                          The understanding of the teacher</th>
+                        <td><input type="radio" formControlName="Question5" [value]="evaluation1">1
+                          <input type="radio" formControlName="Question5" [value]="evaluation2">2
+                          <input type="radio" formControlName="Question5" [value]="evaluation3">3
+                          <input type="radio" formControlName="Question5" [value]="evaluation4">4</td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row" class="scope" >
+                          The availability of pedagogical resources</th>
+                        <td><input type="radio" formControlName="Question6" [value]="evaluation1">1
+                          <input type="radio" formControlName="Question6" [value]="evaluation2">2
+                          <input type="radio" formControlName="Question6" [value]="evaluation3">3
+                          <input type="radio" formControlName="Question6" [value]="evaluation4">4</td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+                 <label for="avis" style="font-weight: bold;">you want to add something :</label><br> <textarea formControlName="description" id="description" name="description" rows="4" cols="50"></textarea>
+                 <br>
+                 <div style="text-align: right;">
+                  <button type="submit" class="get-started-btn"
+                          style="font-family: Raleway, sans-serif;
+                          font-weight: 500;
+                          font-size: 15px;
+                          letter-spacing: 1px;
+                          display: inline-block;
+                          padding: 10px 35px;
+                          border-radius: 50px;
+                          transition: 0.5s;
+                          margin-top: 30px;
+                          border: 2px solid #fff;
+                          color: #fff;
+                          background: #8A2BE2;
+                          border: 2px solid #8A2BE2;">
+                      Send
+                  </button>
+              </div>
+
+                </div>
+              </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
