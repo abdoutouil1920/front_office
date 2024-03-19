@@ -137,23 +137,27 @@ export class LoginComponent implements OnInit {
 
 
 
-loginUser() {
-  this.authService.login(this.emailInput.nativeElement.value, this.passwordInput.nativeElement.value).subscribe(
-    response => {
-      this.router.navigate(['/home']);
-    },
-    error => {
-
-      console.error('Login error:', error);
-
-      this.snackBar.open('Incorrect email or password', 'Dismiss', {
-        duration: 13000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        panelClass: ['custom-snackbar']
-      });
-    }
-  );
-}
+  loginUser() {
+    this.authService.login(this.emailInput.nativeElement.value, this.passwordInput.nativeElement.value).subscribe(
+      response => {
+        console.log('Login response:', response);
+        // Vérifier si la réponse indique que l'email est vérifié
+        if (response && response.isVerified) {
+          this.router.navigate(['/home']); // Redirection vers la page d'accueil si l'email est vérifié
+        }  else  {
+          this.router.navigate(['/verification']); // Redirection vers la page de vérification si l'email n'est pas vérifié
+        }
+      },
+      error => {
+        console.error('Login error:', error);
+        this.snackBar.open('Incorrect email or password', 'Dismiss', {
+          duration: 13000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['custom-snackbar']
+        });
+      }
+    );
+  }
 
 }
