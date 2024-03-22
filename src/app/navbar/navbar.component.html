@@ -1,10 +1,37 @@
-<!-- sidebar.component.html -->
+<nav class="sidebar-navigation">
+	<ul class="prod" #navList>
 
-<nav class="sidebar">
-  <ul>
-    <li (click)="navigateTo('home')">Home</li>
-    <li (click)="navigateTo('product')">Product</li>
-    <li (click)="navigateTo('cart')">Cart</li>
-    <li (click)="navigateTo('contact')">Contact</li>
+		<li class="active" (click)="navigateTo('home')">
+			<i class="fa fa-home"></i>
+			<span class="tooltip">Home</span>
+		</li>
+		<li (click)="navigateTo('product')">
+			<i class="fab fa-shopify"></i>
+			<span class="tooltip">Product</span>
+		</li>
+		<li (click)="navigateTo('cart')">
+			<i class="fas fa-shopping-cart"></i>
+			<span class="tooltip">Cart</span>
+		</li>
+		<li (click)="navigateTo('contact')">
+			<i class="far fa-comments"></i>
+			<span class="tooltip">Contact</span>
+		</li>
+	</ul>
+  <ul class="logs">
+    <li *ngIf="!loggedInUsername" (click)="navigateTo('login')">
+      <i class="fas fa-user"></i>
+      <span class="tooltip">Login</span>
+     </li>
+     <li *ngIf="loggedInUsername" class="username" (click)="toggleDropdown()">
+      {{ loggedInUsername }}
+      <div class="dropdown" *ngIf="showDropdown">
+        <div (click)="navigateTo('profile')">Profile</div>
+        <div (click)="logout()">Disconnect</div>
+      </div>
+    </li>
   </ul>
 </nav>
+
+
+

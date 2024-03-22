@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const url = event.url;
-        this.showNavbar = !(url.includes('login') || url.includes('verification'));
+        this.showNavbar = !(url.includes('login') || url.includes('verification') ||  url.includes('profile')  );
       }
     });
   }

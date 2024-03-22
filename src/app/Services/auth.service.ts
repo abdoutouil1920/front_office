@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,17 +8,41 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://localhost:3000/api/v1'; // Replace this with your backend API URL
 
-  constructor(private http: HttpClient) { }
+
+  private tokenKey = 'auth_token';
+  private loggedInUsernameSubject = new BehaviorSubject<string | null>(null);
+  loggedInUsername = this.loggedInUsernameSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.loggedInUsernameSubject = new BehaviorSubject<string | null>(null);
+    this.loggedInUsername = this.loggedInUsernameSubject.asObservable();
+
+    // Check for existing token and username on initialization
+    const storedToken = localStorage.getItem(this.tokenKey);
+    const storedUsername = localStorage.getItem('loggedInUsername');
+    if (storedToken) {
+      this.loggedInUsernameSubject.next(storedUsername);
+    }
+  }
 
   login(email: any, password: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/users/login`, { email, password })
       .pipe(
-        tap(response => console.log('Login response:', response)),
+        tap(response => {
+          console.log('Login response:', response);
+          this.loggedInUsernameSubject.next(response.userName);
+          localStorage.setItem(this.tokenKey, response.token);
+          localStorage.setItem('loggedInUsername', response.userName); // Add this line
+        }),
         catchError(error => {
           console.error('Login error:', error);
           return throwError(error);
         })
       );
+  }
+
+  getLoggedInUsernameFromStorage(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 
   register(name: any,lastName:any,email:any,phone:any,dateofbirth:any,role:any,userName:any,password:any): Observable<any> {
@@ -29,5 +53,15 @@ export class AuthService {
         return throwError(error);
       })
     );
+  }
+
+  getToken(): string | null {
+
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    this.loggedInUsernameSubject.next(null);
   }
 }

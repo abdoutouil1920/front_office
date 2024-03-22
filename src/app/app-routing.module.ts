@@ -9,6 +9,7 @@ import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { VerficationComponent } from './verfication/verfication.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'verification', component: VerficationComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'evlu', component: EvaluationComponent },
 
