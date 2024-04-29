@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="form-outer">
-        <form [formGroup]="registrationForm" (ngSubmit)="registerUser()">
+        <form [formGroup]="registrationForm" >
           <div class="page" *ngIf="currentSignIn === 1 && !isSignUpActive">
             <div class="title">Basic Info:</div>
             <div class="field">
