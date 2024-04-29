@@ -11,6 +11,7 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
 import { VerficationComponent } from './verfication/verfication.component';
 import { ProfileComponent } from './profile/profile.component';
 
+
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'product', component: ProductComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'evlu', component: EvaluationComponent },
+ 
 
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirection vers la page par défaut
 ];

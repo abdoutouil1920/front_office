@@ -12,8 +12,17 @@ export class NavbarComponent implements OnInit {
   activeLink: string = '';
   loggedInUsername: string | null = null;
   showDropdown: boolean = false;
-
-  constructor(private router: Router, private authService: AuthService) {}
+  displaySection: boolean = false;
+  shouldAnimate: boolean = false;
+  constructor(private router: Router, private authService: AuthService) {
+    this.router.events.subscribe((event) => {
+      if (this.router.url === '/home') {
+        this.displaySection = true;
+      } else {
+        this.displaySection = false;
+      }
+    });
+  }
   ngOnInit() {
     this.authService.loggedInUsername.subscribe(username => {
       this.loggedInUsername = username;
@@ -24,7 +33,9 @@ export class NavbarComponent implements OnInit {
   toggleDropdown(): void {
     this.showDropdown = !this.showDropdown;
   }
-
+  toggleAnimation(): void {
+    this.shouldAnimate = !this.shouldAnimate; // Toggle animation state
+  }
   logout(): void {
 
     this.authService.logout();
