@@ -45,16 +45,8 @@ export class NavbarComponent implements OnInit {
 
   navigateTo(page: string): void {
     this.router.navigate([page]);
-    this.setActiveLink(page);
+
   }
 
-  setActiveLink(page: string) {
-    this.activeLink = page;
-    const navItems = this.navList.nativeElement.querySelectorAll('li');
-    navItems.forEach((item: HTMLElement) => item.classList.remove('active'));
-    const activeItem = this.navList.nativeElement.querySelector(`li[click*="${page}"]`);
-    if (activeItem) {
-      activeItem.classList.add('active');
-    }
-  }
+
 }

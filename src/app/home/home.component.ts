@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from '../products/models/products';
+import { ProductService } from '../Services/products/products.service';
 
 @Component({
   selector: 'app-home',
@@ -6,18 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  images: string[] = ['img1.jpg', 'img2.jpg'];
-  activeImageIndex = 0;
+ product:Product[]=[];
 
-  ngOnInit(): void {}
+ ngOnInit(): void {
+  this. getAllFeaturedProducts();
+}
+  constructor(private productService: ProductService) { }
 
-  nextImage(): void {
-    const nextIndex = (this.activeImageIndex + 1) % this.images.length;
-    this.activeImageIndex = nextIndex;
+  getAllFeaturedProducts(): void {
+    this.productService.getAllFeaturedProducts().subscribe(
+      (response: Product[]) => {
+        this.product = response;
+        console.log('Featured Products:', this.product);
+      },
+      (error) => {
+        console.error('Error fetching featured products:', error);
+      }
+    );
   }
 
-  previousImage(): void {
-    const previousIndex = (this.activeImageIndex - 1 + this.images.length) % this.images.length;
-    this.activeImageIndex = previousIndex;
-  }
 }

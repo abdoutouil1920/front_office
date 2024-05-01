@@ -1,0 +1,19 @@
+<div class="box" >
+  <div class="row">
+    <div class="col-md-5 col-sm-12"  >
+      <img src="{{product?.image}}" alt="Product Image">
+    </div>
+    <div class="col-md-7 col-sm-12">
+      <div class="info">
+        <ul class="list-unstyled">
+          <li><strong>TITLE:</strong> {{product?.name}}</li>
+          <li><strong>Category:</strong> {{ product?.category.name}}</li>
+          <li><strong>Description:</strong> {{product?.description}}</li>
+         <!-- <li><strong>Rate:</strong> {{data.rating.rate}} <span class="star-icon">✩</span></li>-->
+          <li class="old"><strong >old Price:</strong> {{product?.oldPrice}} DT</li>
+          <li><strong> new Price:</strong> {{product?.newPrice}} DT</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

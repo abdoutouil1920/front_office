@@ -1,17 +1,19 @@
-<div class="container">
+<div class="product-card" *ngFor="let product of product" [style.background-image]="'url(' + product?.image + ')'">
   <div class="overlay">
-    <div class = "items"></div>
-    <div class = "items head">
-      <p>Flower Embroidery Hoop Art</p>
-      <hr>
+    <div class="items " >
+      <p>{{ product.name }}</p>
+      <p class="discrip" (click)="navigateTo('product/'+product._id)">{{ product.description }}</p>
+      <p class="old">${{ product.oldPrice }}</p>
+      <p class="new">${{ product.newPrice }}</p>
+      <div class="price-and-buttons">
+        <div class="cart-buttons">
+          <button class="add-to-cart-btn" *ngIf="!addbutton" (click)="toggleQuantityInput()">Add to Cart</button>
+          <div class="quantity" *ngIf="addbutton">
+            <input type="number" class="form-control" [(ngModel)]="amount" min="1">
+            <button type="button" class="add-btn" (click)="add(product._id); addbutton = false;">Add</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class = "items price">
-      <p class="old">$699</p>
-      <p class="new">$345</p>
-    </div>
-    <div class="items cart">
-      <i class="fa fa-shopping-cart"></i>
-      <span>ADD TO CART</span>
   </div>
-</div>
 </div>
