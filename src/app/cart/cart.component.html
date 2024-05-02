@@ -2,7 +2,7 @@
 <div class="cartbox">
   <h1 class="text-danger">Shopping cart</h1>
   <div class="headCart">
-    <p class="lead">you have <label class="text-danger">{{cartproduct.length}}</label> in  your cart</p>
+    <p class="lead">you have <label class="text-danger">{{cartproduct.length}}</label> product in  your cart</p>
     <span class="text-danger card-header" (click)="cleardata()"> clear shopping cart</span>
   </div>
   <table class="table table-striped" >
@@ -20,16 +20,17 @@
     <tbody>
       <tr *ngFor="let item of cartproduct ;let index = index">
         <td><img src="{{item.item.image}}" alt=""></td>
-        <td>{{item.item.title}} </td>
-        <td>{{item.item.price}} DT</td>
+        <td>{{item.item.name}} </td>
+        <td>{{item.item.newPrice}} DT</td>
         <td>
           <div class="quantity">
-            <button class="btn btn-dark" (click)="addamount(index)">+</button>
-            <input type="number" min="1" (change)="detectchange()"  class="form-control">
             <button class="btn btn-dark" (click)="minamount(index)">-</button>
+            <input type="number" min="1" (change)="detectchange()"  class="form-control">
+            <button class="btn btn-dark" (click)="addamount(index)">+</button>
+
           </div>
         </td>
-        <td> {{item.item.price * item.quantity}} DT</td>
+        <td> {{item.item.newPrice * item.quantity}} DT</td>
         <td>
           <button class="btn btn-danger" (click)="deleteproduct(index)">Delete</button>
         </td>
@@ -42,7 +43,7 @@
         <th></th>
         <th></th>
         <th>Total : {{total}} DT</th>
-        <th><button class="btn btn-success" (click)="addcart()">Oreder Now</button></th>
+        <th><button class="btn btn-success" (click)="addcart()">Order Now</button></th>
       </tr>
     </tfoot>
   </table>

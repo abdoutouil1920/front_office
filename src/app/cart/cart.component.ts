@@ -31,7 +31,7 @@ export class CartComponent implements OnInit{
   getcarttotal(){
     this.total =0 ;
     for(let x in this.cartproduct){
-      this.total +=this.cartproduct[x].item.price * this.cartproduct[x].quantity
+      this.total +=this.cartproduct[x].item.newPrice * this.cartproduct[x].quantity
     }
   }
   minamount(index:number){
@@ -46,6 +46,7 @@ export class CartComponent implements OnInit{
   }
   detectchange(){
     this.getcarttotal();
+    console.log(this.getcarttotal());
     localStorage.setItem("cart" ,JSON.stringify(this.cartproduct))
 
   }

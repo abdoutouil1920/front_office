@@ -16,16 +16,16 @@ export class ProductComponent implements OnInit {
   filteredProducts: Product[] = [];
   searchQuery: string = '';
   selectedCategory: string = 'all';
-
   addbutton:boolean =false;
-   product: Product[] = [];
-   amount:number = 0
+  product: Product | undefined;
+     amount:number = 0
    @Output() item=new EventEmitter();
 
    constructor(private router: Router,private productService: ProductService) { }
 
    ngOnInit(): void {
      this.getAllProducts();
+
    }
    navigateTo(page: string): void {
     this.router.navigate([page]);
@@ -33,11 +33,13 @@ export class ProductComponent implements OnInit {
   }
 
 
-   getAllProducts(): void {
+  getAllProducts(): void {
     this.productService.getAllProducts().subscribe(
       (data: Product[]) => {
-        this.product = data;
-        console.log('Products:', this.product); // Log the received products
+        this.products = data;
+        if (data.length > 0) {
+          this.product = data[0]; // Set the first product as the default product
+        }
       },
       (error) => {
         console.error('Error fetching products:', error);
@@ -51,13 +53,9 @@ export class ProductComponent implements OnInit {
 
   add(productId: string): void {
     if (this.amount > 0) {
-      console.log('Products:', this.products);
-      console.log('ProductId:', productId);
-
-      const productToAdd = this.products.find((product) => product._id === productId);
-      console.log('ProductToAdd:', productToAdd);
-
+      const productToAdd = this.products?.find((product) => product._id === productId);
       if (productToAdd) {
+        console.log('ProductToAdd:', productToAdd);
         this.addtocart({ item: productToAdd, quantity: this.amount });
       } else {
         console.error('Product not found.');
@@ -68,12 +66,15 @@ export class ProductComponent implements OnInit {
     }
   }
 
+
   addtocart(event: any): void {
+    console.log("button cliked")
     let cartProducts: any[] = [];
     if (localStorage.getItem('cart')) {
       cartProducts = JSON.parse(localStorage.getItem('cart')!);
     }
     const existingProduct = cartProducts.find((item) => item.item._id === event.item._id);
+    console.log( existingProduct );
     if (existingProduct) {
       alert('This product is already in the cart.');
     } else {

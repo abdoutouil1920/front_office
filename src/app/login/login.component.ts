@@ -136,7 +136,10 @@ export class LoginComponent implements OnInit {
 
 
 
+  navigateTo(page: string): void {
+    this.router.navigate([page]);
 
+  }
   loginUser() {
     this.authService.login(this.emailInput.nativeElement.value, this.passwordInput.nativeElement.value).subscribe(
       response => {

@@ -1,10 +1,11 @@
-<div class="product-card" *ngFor="let product of product" [style.background-image]="'url(' + product?.image + ')'">
+<div class="product-card" *ngFor="let product of products" [style.background-image]="'url(' + product?.image + ')'">
   <div class="overlay">
     <div class="items " >
       <p>{{ product.name }}</p>
       <p class="discrip" (click)="navigateTo('product/'+product._id)">{{ product.description }}</p>
       <p class="old">${{ product.oldPrice }}</p>
       <p class="new">${{ product.newPrice }}</p>
+
       <div class="price-and-buttons">
         <div class="cart-buttons">
           <button class="add-to-cart-btn" *ngIf="!addbutton" (click)="toggleQuantityInput()">Add to Cart</button>

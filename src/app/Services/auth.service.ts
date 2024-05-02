@@ -24,7 +24,15 @@ export class AuthService {
       this.loggedInUsernameSubject.next(storedUsername);
     }
   }
+  sendResetPasswordEmail(email: string): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/v1/users/forgot-password', { email });
+  }
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    const resetUrl = `${this.apiUrl}/users/reset-password?token=`+ token;
+    const requestBody = { newPassword };
 
+    return this.http.post(resetUrl, requestBody);
+  }
   login(email: any, password: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/users/login`, { email, password })
       .pipe(
