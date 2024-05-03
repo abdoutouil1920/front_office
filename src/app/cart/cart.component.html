@@ -1,5 +1,5 @@
 
-<div class="cartbox">
+<div class="cartbox" *ngIf="userEmail">
   <h1 class="text-danger">Shopping cart</h1>
   <div class="headCart">
     <p class="lead">you have <label class="text-danger">{{cartproduct.length}}</label> product in  your cart</p>
@@ -11,6 +11,7 @@
         <th> </th>
         <th>Name : </th>
         <th>Prcie : </th>
+
         <th style="width: 25%;">Quentity : </th>
         <th>Total : </th>
         <th></th>
@@ -22,10 +23,11 @@
         <td><img src="{{item.item.image}}" alt=""></td>
         <td>{{item.item.name}} </td>
         <td>{{item.item.newPrice}} DT</td>
+
         <td>
           <div class="quantity">
             <button class="btn btn-dark" (click)="minamount(index)">-</button>
-            <input type="number" min="1" (change)="detectchange()"  class="form-control">
+            <input type="number" min="1" (change)="detectchange()"  class="form-control" value="{{item.quantity}}">
             <button class="btn btn-dark" (click)="addamount(index)">+</button>
 
           </div>
@@ -53,4 +55,6 @@
 
 <div class="alert alert-success" role="alert" *ngIf="success"><strong>Well done</strong> Your order is successfuly send</div>
 
-
+<div class="alert alert-warning" role="alert" *ngIf="!userEmail">
+  <strong>You must log in to view your cart.</strong> Please log in to access your shopping cart. <button class="btn btn-danger"  (click)="navigateTo('login')" style="margin-left: 37%; width: 10%;" > login </button>
+</div>

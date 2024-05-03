@@ -8,13 +8,17 @@
 
       <div class="price-and-buttons">
         <div class="cart-buttons">
-          <button class="add-to-cart-btn" *ngIf="!addbutton" (click)="toggleQuantityInput()">Add to Cart</button>
+          <button class="add-to-cart-btn" *ngIf="!addbutton && isLoggedIn " (click)="toggleQuantityInput()">Add to Cart</button>
           <div class="quantity" *ngIf="addbutton">
             <input type="number" class="form-control" [(ngModel)]="amount" min="1">
             <button type="button" class="add-btn" (click)="add(product._id); addbutton = false;">Add</button>
           </div>
         </div>
       </div>
+      <div *ngIf="!isLoggedIn">
+        <button class="btn btn-danger"(click)="navigateTo('login')"  >login to add  </button>
+       </div>
+    </div>
     </div>
   </div>
-</div>
+

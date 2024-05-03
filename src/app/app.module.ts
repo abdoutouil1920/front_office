@@ -17,6 +17,9 @@ import { ProductsModule } from './products/products.module';
 import { FormsModule } from '@angular/forms';
 import { ForogotPassComponent } from './forogot-pass/forogot-pass.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { FooterComponent } from './footer/footer.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +27,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ForogotPassComponent,
     HomeComponent,
     LoginComponent,
+
+    ProductDetailComponent,
     CartComponent,
     ProductComponent,
   ],
@@ -32,7 +37,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MatSnackBarModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
+    FooterComponent,
     ResetPasswordComponent,
     ReactiveFormsModule,
     FormsModule,

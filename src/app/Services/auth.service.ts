@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://localhost:3000/api/v1'; // Replace this with your backend API URL
 
-
+  private loggedinemail="";
   private tokenKey = 'auth_token';
   private loggedInUsernameSubject = new BehaviorSubject<string | null>(null);
   loggedInUsername = this.loggedInUsernameSubject.asObservable();
@@ -18,8 +18,8 @@ export class AuthService {
     this.loggedInUsername = this.loggedInUsernameSubject.asObservable();
 
     // Check for existing token and username on initialization
-    const storedToken = localStorage.getItem(this.tokenKey);
-    const storedUsername = localStorage.getItem('loggedInUsername');
+    const storedToken = sessionStorage.getItem(this.tokenKey);
+    const storedUsername = sessionStorage.getItem('loggedInUsername');
     if (storedToken) {
       this.loggedInUsernameSubject.next(storedUsername);
     }
@@ -39,8 +39,12 @@ export class AuthService {
         tap(response => {
           console.log('Login response:', response);
           this.loggedInUsernameSubject.next(response.userName);
-          localStorage.setItem(this.tokenKey, response.token);
-          localStorage.setItem('loggedInUsername', response.userName); // Add this line
+          sessionStorage.setItem(this.tokenKey, response.token);
+          sessionStorage.setItem('loggedInUsername', response.userName);
+          sessionStorage.setItem('loggedInemail', email);
+          this.loggedinemail=response.email;
+          // Add this line
+          this.clearCart(email);
         }),
         catchError(error => {
           console.error('Login error:', error);
@@ -50,7 +54,7 @@ export class AuthService {
   }
 
   getLoggedInUsernameFromStorage(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return sessionStorage.getItem(this.tokenKey);
   }
 
   register(name: any,lastName:any,email:any,phone:any,dateofbirth:any,role:any,userName:any,password:any): Observable<any> {
@@ -65,11 +69,46 @@ export class AuthService {
 
   getToken(): string | null {
 
-    return localStorage.getItem(this.tokenKey);
+    return sessionStorage.getItem(this.tokenKey);
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem('loggedInUsername');
+    sessionStorage.removeItem('loggedInemail');
     this.loggedInUsernameSubject.next(null);
   }
+
+
+  addToCart(userEmail: string, product: any): void {
+    const cartKey = `cart_${userEmail}`;
+    let cartItems: any[] = [];
+    const storedCart = sessionStorage.getItem(cartKey);
+
+    if (storedCart) {
+      cartItems = JSON.parse(storedCart);
+    }
+
+    const existingProduct = cartItems.find((item) => item._id === product._id);
+    if (existingProduct) {
+      console.log('Product already exists in cart.');
+    } else {
+      cartItems.push(product);
+      sessionStorage.setItem(cartKey, JSON.stringify(cartItems));
+      console.log('Product added to cart:', product);
+    }
+  }
+
+  getCart(userEmail: string): any[] {
+    const cartKey = `cart_${userEmail}`;
+    const cart = sessionStorage.getItem(cartKey);
+
+    return cart ? JSON.parse(cart) : [];
+  }
+
+  clearCart(userEmail: string): void {
+    const cartKey = `cart_${userEmail}`;
+    sessionStorage.removeItem(cartKey);
+  }
+
 }

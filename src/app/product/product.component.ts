@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ProductService } from '../Services/products/products.service';
 import { Product } from './../products/models/products';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -18,13 +19,17 @@ export class ProductComponent implements OnInit {
   selectedCategory: string = 'all';
   addbutton:boolean =false;
   product: Product | undefined;
-     amount:number = 0
+  isLoggedIn: boolean = false;
+  amount:number = 0
    @Output() item=new EventEmitter();
 
-   constructor(private router: Router,private productService: ProductService) { }
+   constructor(private router: Router,private productService: ProductService,private authService:AuthService) { }
 
    ngOnInit(): void {
      this.getAllProducts();
+     this.authService.loggedInUsername.subscribe(username => {
+      this.isLoggedIn = !!username; // Convert username to boolean (true if username exists)
+    });
 
    }
    navigateTo(page: string): void {
@@ -34,6 +39,8 @@ export class ProductComponent implements OnInit {
 
 
   getAllProducts(): void {
+    console.log(this.isLoggedIn);
+
     this.productService.getAllProducts().subscribe(
       (data: Product[]) => {
         this.products = data;
@@ -48,38 +55,54 @@ export class ProductComponent implements OnInit {
   }
 
   toggleQuantityInput(): void {
-    this.addbutton = true;
+    if (this.isLoggedIn) {
+      this.addbutton = true;
+
+
+    }
   }
 
   add(productId: string): void {
     if (this.amount > 0) {
-      const productToAdd = this.products?.find((product) => product._id === productId);
+      const productToAdd = this.products.find((product) => product._id === productId);
+      console.log(productToAdd);
       if (productToAdd) {
-        console.log('ProductToAdd:', productToAdd);
-        this.addtocart({ item: productToAdd, quantity: this.amount });
+        const userEmail = sessionStorage.getItem("loggedInemail");
+        if (userEmail !== null) {
+          console.log('ProductToAdd:', productToAdd);
+          this.addToCart(userEmail, { item: productToAdd, quantity: this.amount });
+        } else {
+          console.error('User email is null. Unable to add to cart.');
+        }
       } else {
         console.error('Product not found.');
       }
-      this.amount = 0; // Reset quantity after adding to cart
+      this.amount = 0;
     } else {
       console.error('Invalid quantity.');
     }
   }
+  addToCart(userEmail: string, cartItem: any): void {
+    const cartKey = `cart_${userEmail}`;
+    let cartItems: any[] = [];
 
+    try {
+      const storedCart = sessionStorage.getItem(cartKey);
+      if (storedCart) {
+        cartItems = JSON.parse(storedCart);
+      }
 
-  addtocart(event: any): void {
-    console.log("button cliked")
-    let cartProducts: any[] = [];
-    if (localStorage.getItem('cart')) {
-      cartProducts = JSON.parse(localStorage.getItem('cart')!);
-    }
-    const existingProduct = cartProducts.find((item) => item.item._id === event.item._id);
-    console.log( existingProduct );
-    if (existingProduct) {
-      alert('This product is already in the cart.');
-    } else {
-      cartProducts.push(event);
-      localStorage.setItem('cart', JSON.stringify(cartProducts));
+      const existingProduct = cartItems.find((item) => item._id === cartItem.item._id);
+      if (existingProduct) {
+        console.log('Product already exists in cart:', existingProduct);
+      } else {
+        cartItems.push(cartItem);
+        sessionStorage.setItem(cartKey, JSON.stringify(cartItems));
+        console.log('Product added to cart:', cartItem);
+      }
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      // Implement proper error handling based on your application's requirements
     }
   }
 }
