@@ -1,42 +1,3 @@
-<!--<div class="box" >
-  <div class="row">
-    <div class="col-md-5 col-sm-12"  >
-      <img src="{{product?.image}}" alt="Product Image">
-    </div>
-
-
-
-    <div class="col-md-5 col-sm-12" *ngFor="let item of product?.images"  >
-
-      <img src="{{item}}" alt="Product Image">
-
-
-    </div>
-    <div class="col-md-7 col-sm-12">
-      <div class="info">
-        <ul class="list-unstyled">
-          <li><strong>TITLE:</strong> {{product?.name}}</li>
-          <li><strong>Category:</strong> {{ product?.category.name}}</li>
-          <li><strong>Description:</strong> {{product?.description}}</li>
-    <li><strong>Rate:</strong> {{data.rating.rate}} <span class="star-icon">✩</span></li>
-          <li class="old"><strong >old Price:</strong> {{product?.oldPrice}} DT</li>
-          <li><strong> new Price:</strong> {{product?.newPrice}} DT</li>
-        </ul>
-      </div>
-      <div class="price-and-buttons">
-        <div class="cart-buttons">
-          <button class="add-to-cart-btn" *ngIf="!addbutton" (click)="toggleQuantityInput()">Add to Cart</button>
-          <div class="quantity" *ngIf="addbutton">
-            <input type="number" class="form-control"  min="1">
-            <button type="button" class="add-btn" (click)="add(product._id); addbutton = false;">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>-->
-
-<!-- product section -->
 <section class="product-container">
   <!-- left side -->
   <div class="img-card">
@@ -65,7 +26,7 @@
     </div>
     <div *ngIf="!isLoggedIn">
       <div class="alert alert-warning" role="alert">
-       you have to be logged in to add to card 
+       you have to be logged in to add to card
       </div>     </div>
   </div>
 </section>

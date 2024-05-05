@@ -1,8 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProductService } from '../Services/products/products.service';
 import { Product } from './../products/models/products';
 import { AuthService } from '../Services/auth.service';
+import { Category } from '../products/models/category';
+import { CategoryService } from '../Services/category/category.service';
+
 
 @Component({
   selector: 'app-product',
@@ -11,54 +14,101 @@ import { AuthService } from '../Services/auth.service';
 })
 export class ProductComponent implements OnInit {
   products: Product[] = [];
-  categories: string[] = [];
-  loading: boolean = false;
-  cartproduct: any[] = [];
+  categories: Category[] = [];
   filteredProducts: Product[] = [];
-  searchQuery: string = '';
-  selectedCategory: string = 'all';
-  addbutton:boolean =false;
-  product: Product | undefined;
   isLoggedIn: boolean = false;
-  amount:number = 0
-   @Output() item=new EventEmitter();
+  addbutton:boolean = false;
+  amount: number = 0;
+  minPrice: number = 5;
+  maxPrice: number = 1000;
+  isLoading: boolean = false;
 
-   constructor(private router: Router,private productService: ProductService,private authService:AuthService) { }
 
-   ngOnInit(): void {
-     this.getAllProducts();
-     this.authService.loggedInUsername.subscribe(username => {
+  constructor(
+    private router: Router,
+    private productService: ProductService,
+    private authService: AuthService,
+    private categoryService: CategoryService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadCategories();
+    this.loadProducts();
+    this.applyPriceFilter();
+    this.authService.loggedInUsername.subscribe(username => {
       this.isLoggedIn = !!username; // Convert username to boolean (true if username exists)
     });
-
-   }
-   navigateTo(page: string): void {
-    this.router.navigate([page]);
-
   }
 
-
-  getAllProducts(): void {
-    console.log(this.isLoggedIn);
-
+  loadCategories(): void {
+    this.categoryService.getAllCategories().subscribe(
+      (data: Category[]) => {
+        this.categories = data;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+  applyPriceFilter(): void {
+    // Filter products based on price range
     this.productService.getAllProducts().subscribe(
       (data: Product[]) => {
-        this.products = data;
-        if (data.length > 0) {
-          this.product = data[0]; // Set the first product as the default product
-        }
+        this.filteredProducts = data.filter(product => {
+          return product.newPrice >= this.minPrice && product.newPrice <= this.maxPrice;
+        });
       },
       (error) => {
         console.error('Error fetching products:', error);
       }
     );
   }
+  loadProducts(): void {
+
+    this.productService.getAllProducts().subscribe(
+      (data: Product[]) => {
+        this.products = data;
+        this.filteredProducts = [...this.products];
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+
+      },
+      () => {
+      }
+    );
+  }
+
+  filterByCategory(categoryId: string): void {
+    console.log('categoryId:', categoryId);
+    if (categoryId === 'all') {
+      this.filteredProducts = [...this.products]; // Show all products
+    } else {
+      this.filteredProducts = this.products.filter(product => {
+        console.log('product:', product);
+        return product.category && product.category._id === categoryId;
+      });
+    }
+  }
+
+
+  onSearch(searchTerm: string): void {
+    if (!searchTerm) {
+      this.filteredProducts = [...this.products];
+    } else {
+      this.filteredProducts = this.products.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+  }
+
+  navigateTo(page: string): void {
+    this.router.navigate([page]);
+  }
 
   toggleQuantityInput(): void {
     if (this.isLoggedIn) {
       this.addbutton = true;
-
-
     }
   }
 
@@ -82,6 +132,7 @@ export class ProductComponent implements OnInit {
       console.error('Invalid quantity.');
     }
   }
+
   addToCart(userEmail: string, cartItem: any): void {
     const cartKey = `cart_${userEmail}`;
     let cartItems: any[] = [];
@@ -102,7 +153,6 @@ export class ProductComponent implements OnInit {
       }
     } catch (error) {
       console.error('Error adding product to cart:', error);
-      // Implement proper error handling based on your application's requirements
     }
   }
 }

@@ -3,11 +3,101 @@ $bg: #FEF5DF;
 body {
   background-color: $bg;
 }
-
-
-.product-card {
+.productssearch{
   position: relative;
-  top: 100px;
+  margin-left: 12%;
+  margin-top: -55%;
+
+
+}
+
+.sidebar {
+  width: 200px;
+  margin-left: -10%;
+  margin-top: 10%;
+  position: relative;
+  height: 80vh; /* Adjust the width as needed */
+  background-color: rgba(255, 255, 255, 0.65);
+  border-radius: 3%;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  list-style: none ;
+  li{
+    list-style: none;
+    cursor: pointer;
+  }
+  .catego{
+    margin-left: 8%;
+    color: #333;
+    
+    &:hover {
+      color: #af001b;
+    }
+  }
+  .range{
+    width: 100%;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-item {
+  padding: 10px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.category-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.category-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.category-color {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.prod{
+  background-color: rgba(51, 51, 51, 0.075);
+  height: 180%;
+  border-radius: 3%;
+  @media (max-width: 1200px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+h1{
+  margin-top: 20%;
+  margin-left: 20%;
+  color: #af001b;
+
+}
+.product-card {
+
+  position: relative;
+  border-radius: 3%;
   display: inline-block;
   width: 20%;
   height: 250px;
@@ -25,7 +115,7 @@ body {
   .overlay {
     width: 90%;
     height: 90%;
-
+    border-radius: 3%;
     display: grid;
     grid-template-columns: 2fr;
     grid-template-rows: 1fr 2fr 2fr 1fr;
@@ -40,6 +130,7 @@ body {
       padding-left: 10px;
       line-height: 80%;
       letter-spacing: 3px;
+
       cursor:auto;
       background-image: var(--product-image-url); // Use the custom CSS variable for background image
       .old {
@@ -69,7 +160,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-top: 20%;
-  margin-left: 14%;
+  margin-left: 10%;
 
 .btn-danger{
   margin-right: 20%;
@@ -136,5 +227,10 @@ body {
     transition-delay: 0.4s;
   }
 
+
+}
+.search
+{
+  margin-top: 10%;
 
 }

@@ -19,15 +19,16 @@ import { ForogotPassComponent } from './forogot-pass/forogot-pass.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { FooterComponent } from './footer/footer.component';
-
+import { SearchComponent } from './search/search.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     ForogotPassComponent,
     HomeComponent,
-    LoginComponent,
 
+    LoginComponent,
     ProductDetailComponent,
     CartComponent,
     ProductComponent,
@@ -41,6 +42,8 @@ import { FooterComponent } from './footer/footer.component';
     ResetPasswordComponent,
     ReactiveFormsModule,
     FormsModule,
+    SearchComponent,
+    LoadingSpinnerComponent,
     ProductsModule,
     AppRoutingModule
   ],
