@@ -88,5 +88,6 @@ export class CartComponent implements OnInit{
     });
 
     console.log(model);
+    this.router.navigate(['/order']);
   }
 }

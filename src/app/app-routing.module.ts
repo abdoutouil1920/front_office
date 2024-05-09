@@ -15,7 +15,7 @@ import { AllProductsComponent } from './products/components/all-products/all-pro
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ForogotPassComponent } from './forogot-pass/forogot-pass.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-
+import { OrderComponent } from './order/order.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'product', component: ProductComponent },
@@ -26,7 +26,7 @@ const routes: Routes = [
   {path:'products', component:AllProductsComponent},
   {path:'forgot_pass', component:ForogotPassComponent},
   {path:'reset_pass', component:ResetPasswordComponent},
-
+  {path:'order', component:OrderComponent},
   { path: 'product/:id', component: ProductDetailComponent },
 
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirection vers la page par défaut

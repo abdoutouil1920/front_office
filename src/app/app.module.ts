@@ -21,13 +21,14 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { OrderComponent } from './order/order.component';
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     ForogotPassComponent,
     HomeComponent,
-
+    OrderComponent,
     LoginComponent,
     ProductDetailComponent,
     CartComponent,
@@ -42,6 +43,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     ResetPasswordComponent,
     ReactiveFormsModule,
     FormsModule,
+
     SearchComponent,
     LoadingSpinnerComponent,
     ProductsModule,
