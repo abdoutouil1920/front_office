@@ -1,9 +1,9 @@
+import { AddProductComponent } from './add-product/add-product.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -14,7 +14,7 @@ import { ProductComponent } from './product/product.component';
 import { AuthService } from './Services/auth.service';
 import { ProductService } from './Services/products/products.service';
 import { ProductsModule } from './products/products.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForogotPassComponent } from './forogot-pass/forogot-pass.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
@@ -35,6 +35,7 @@ import { OrderComponent } from './order/order.component';
     ProductComponent,
   ],
   imports: [
+    AddProductComponent,
     BrowserModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
@@ -43,7 +44,6 @@ import { OrderComponent } from './order/order.component';
     ResetPasswordComponent,
     ReactiveFormsModule,
     FormsModule,
-
     SearchComponent,
     LoadingSpinnerComponent,
     ProductsModule,
