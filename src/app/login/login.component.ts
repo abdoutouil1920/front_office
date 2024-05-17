@@ -110,7 +110,6 @@ export class LoginComponent implements OnInit {
 
         if (this.registrationForm.valid) {
           const formValues = this.registrationForm.value;
-          console.log(formValues);
           this.authService.register( formValues.name,
             formValues.lastName,
             formValues.email,
@@ -144,9 +143,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.emailInput.nativeElement.value, this.passwordInput.nativeElement.value).subscribe(
       response => {
         console.log('Login response:', response);
-        // Vérifier si la réponse indique que l'email est vérifié
         if (response && response.isVerified) {
-          this.router.navigate(['/home']); // Redirection vers la page d'accueil si l'email est vérifié
+          this.router.navigate(['/home']); 
         }  else  {
           this.router.navigate(['/verification']); // Redirection vers la page de vérification si l'email n'est pas vérifié
         }

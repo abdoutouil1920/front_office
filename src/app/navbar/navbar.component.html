@@ -36,6 +36,9 @@
         <li (click)="navigateTo('profile')">
           <a class="dropdown-item" href="#">Profile</a>
         </li>
+        <li *ngIf="loggedInRole === 'entreprise'" (click)="navigateTo('add-prod')">
+          <a class="dropdown-item" href="#">Add Product</a>
+        </li>
         <li (click)="logout()">
           <a class="dropdown-item" href="#">Disconnect</a>
         </li>

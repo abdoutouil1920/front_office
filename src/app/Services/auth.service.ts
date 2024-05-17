@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +40,8 @@ export class AuthService {
           this.loggedInUsernameSubject.next(response.userName);
           sessionStorage.setItem(this.tokenKey, response.token);
           sessionStorage.setItem('loggedInUsername', response.userName);
+          sessionStorage.setItem('user_id', response.user_id);
+          sessionStorage.setItem('role', response.role);
           sessionStorage.setItem('loggedInemail', email);
           this.loggedinemail=response.email;
           // Add this line
@@ -76,6 +77,7 @@ export class AuthService {
     sessionStorage.removeItem(this.tokenKey);
     sessionStorage.removeItem('loggedInUsername');
     sessionStorage.removeItem('loggedInemail');
+    sessionStorage.removeItem('id_user');
     this.loggedInUsernameSubject.next(null);
   }
 

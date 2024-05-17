@@ -23,11 +23,10 @@ export class ForogotPassComponent implements OnInit {
     });
   }
 
-  
+
   onSubmit(): void {
     if (this.forgotPasswordForm.valid) {
       const email = this.forgotPasswordForm.get('email')?.value;
-      console.log('Email submitted:', email);
 
       // Call AuthService method to send reset password email
       this.authService.sendResetPasswordEmail(email).subscribe(

@@ -28,7 +28,10 @@ export class ProductService {
   }
 
   addProduct(productData: FormData,authoke:string): Observable<any> {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMwMGRiZWE1NWQ1ODMwYzYyZjFhNWYiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MTU3OTUzNDUsImV4cCI6MTcxNTg4MTc0NX0.xmIrjgyO3JrqHOa_-qPhIic3gX3EXUs8hFBubIIWHPo';
+    const token = sessionStorage.getItem('auth_token');
+    
+
+
     if (!token) {
       throw new Error('Authentication token not found');
     }

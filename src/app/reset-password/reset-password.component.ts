@@ -26,7 +26,7 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
 
-    // Prevent default form submission if event is defined
+
     if (event) {
       event.preventDefault();
     }

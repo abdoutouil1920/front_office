@@ -35,9 +35,7 @@
         <div>
           <label for="category" class="formbold-form-label"> Category </label>
           <select name="category" id="category" formControlName="category" class="formbold-form-input" ngModel>
-            <option value="aaaaa">aaaa</option>
-            <option value="bbbbb">bbbb</option>
-            <option value="66300f03a55d5830c62f1a65">66300f03a55d5830c62f1a65</option>
+            <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
           </select>
         </div>
       </div>

@@ -54,7 +54,9 @@
 
 
 <div class="alert alert-success" role="alert" *ngIf="success"><strong>Well done</strong> Your order is successfuly send</div>
-
+<div class="alert alert-danger" role="alert" *ngIf="errorMessage"> <!-- Add this block -->
+  <strong>{{errorMessage}}</strong>
+</div>
 <div class="alert alert-warning" role="alert" *ngIf="!userEmail">
   <strong>You must log in to view your cart.</strong> Please log in to access your shopping cart. <button class="btn btn-danger"  (click)="navigateTo('login')" style="margin-left: 37%; width: 10%;" > login </button>
 </div>

@@ -8,12 +8,13 @@ import { AuthService } from '../Services/auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  @ViewChild('navList') navList!: ElementRef; // Reference to the ul element
+  @ViewChild('navList') navList!: ElementRef;
   activeLink: string = '';
   loggedInUsername: string | null = null;
   showDropdown: boolean = false;
   displaySection: boolean = false;
   shouldAnimate: boolean = false;
+  loggedInRole: string | null = null;
   constructor(private router: Router, private authService: AuthService) {
     this.router.events.subscribe((event) => {
       if (this.router.url === '/home') {
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit {
     this.authService.loggedInUsername.subscribe(username => {
       this.loggedInUsername = username;
     });
+    this.loggedInRole = sessionStorage.getItem('role'); 
     this.activeLink = this.router.url.split('/')[1];
   }
 

@@ -8,20 +8,20 @@ import { Router } from '@angular/router';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit{
-  constructor( private service:CarteServiceService, private router: Router){}
-  cartproduct:any []=[];
+export class CartComponent implements OnInit {
+  cartproduct: any[] = [];
   userEmail = sessionStorage.getItem("loggedInemail");
-  total:any = 0 ;
-  success:boolean = false;
-  showSpinner: boolean = true; // Initially show the spinner
+  total: any = 0;
+  success: boolean = false;
+  errorMessage: string = ''; // Add this line
+
+  constructor(private service: CarteServiceService, private router: Router) { }
+
   ngOnInit(): void {
     this.getCardproduct();
-
-
   }
+
   getCardproduct(): void {
-    // Retrieve userEmail using this.userEmail
     const userEmail = this.userEmail;
 
     if (userEmail) {
@@ -66,28 +66,34 @@ export class CartComponent implements OnInit{
 
   updateCart(): void {
     sessionStorage.setItem(`cart_${this.userEmail}`, JSON.stringify(this.cartproduct));
+    this.getCartTotal(); // Update total after changes
   }
+
   navigateTo(page: string): void {
     this.router.navigate([page]);
-
   }
 
   addcart(): void {
+    if (this.cartproduct.length === 0) {
+      this.errorMessage = 'The cart should have a minimum of 1 product to order.';
+      return;
+    }
+
     const product = this.cartproduct.map(item => {
       return { ProductId: item.item.id, quantity: item.quantity };
     });
 
     const model = {
-      userid: 5,
+      userid:sessionStorage.getItem('') ,
       date: new Date(),
       product: product
     };
 
     this.service.creatnewcart(model).subscribe(res => {
       this.success = true;
+      this.router.navigate(['/order']);
     });
 
     console.log(model);
-    this.router.navigate(['/order']);
   }
 }
