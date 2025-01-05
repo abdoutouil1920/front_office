@@ -2,7 +2,7 @@
 
 
 export interface Product {
-  _id: string;
+  id: number;
   name: string;
   description: string;
   image: string;
@@ -10,6 +10,7 @@ export interface Product {
   brand: string;
   oldPrice: number;
   newPrice: number;
+  prix:number;
   timing: number;
   isFeatured: boolean;
   category: {

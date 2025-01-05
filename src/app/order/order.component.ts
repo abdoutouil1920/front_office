@@ -38,21 +38,28 @@ export class OrderComponent implements OnInit {
       return;
     }
 
+    // Ensure required fields are not empty
+    if (!this.address || !this.zip || !this.phoneNumber) {
+      alert('Please fill out all required fields: Address, ZIP code, and Phone Number.');
+      return;
+    }
+
     const orderData = {
       orderItems: this.cartItems.map(item => ({
         product: item.item._id,
-        name:item.item.name,
+        name: item.item.name,
         quantity: item.quantity,
         totPrice: item.item.newPrice * item.quantity,
         uniPrice: item.item.newPrice
       })),
-      Address: this.address,
+      shippingAddress: this.address, // Renamed to match backend expectations
       zip: this.zip,
       phone: this.phoneNumber,
       status: 'pending',
-      totalPrice: this.getTotalPayment()
+      totalPrice: this.getTotalPayment() // Ensure this method always returns a valid number
     };
 
+    // Send order to backend
     this.orderService.placeOrder(orderData, this.tokenauth)
       .subscribe(
         response => {
@@ -66,4 +73,5 @@ export class OrderComponent implements OnInit {
         }
       );
   }
+
 }

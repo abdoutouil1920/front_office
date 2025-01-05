@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/v1'; // Replace this with your backend API URL
+  private apiUrl = 'http://localhost:8081/api/users'; // Replace with your backend API URL
 
   private loggedinemail="";
   private tokenKey = 'auth_token';
@@ -32,41 +32,52 @@ export class AuthService {
 
     return this.http.post(resetUrl, requestBody);
   }
-  login(email: any, password: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/users/login`, { email, password })
-      .pipe(
-        tap(response => {
-          console.log('Login response:', response);
-          this.loggedInUsernameSubject.next(response.userName);
-          sessionStorage.setItem(this.tokenKey, response.token);
-          sessionStorage.setItem('loggedInUsername', response.userName);
-          sessionStorage.setItem('user_id', response.user_id);
-          sessionStorage.setItem('role', response.role);
-          sessionStorage.setItem('loggedInemail', email);
-          this.loggedinemail=response.email;
-          // Add this line
-          this.clearCart(email);
-        }),
-        catchError(error => {
-          console.error('Login error:', error);
-          return throwError(error);
-        })
-      );
+  register(
+    firstName: string,
+    lastName: string,
+    email: string,
+    phoneNumber: string,
+    dateOfBirth: string,
+    role: string,
+    username: string,
+    password: string
+  ): Observable<any> {
+    const body = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      dateOfBirth,
+      role,
+      username,
+      motDePasse: password, // Ensure the field matches your backend (French: motDePasse)
+    };
+
+    return this.http.post(`${this.apiUrl}/register`, body);
   }
 
+  // Login a user
+  login(email: string, password: string): Observable<any> {
+    const body = {
+      email,
+      motDePasse: password, // Ensure this matches the backend field
+    };
+
+    return this.http.post(`${this.apiUrl}/login`, body).pipe(
+      map((response: any) => {
+        if (response && response.token) {
+          // Store the token in local storage
+          localStorage.setItem('token', response.token);
+        }
+        return response;
+      })
+    );
+  }
   getLoggedInUsernameFromStorage(): string | null {
     return sessionStorage.getItem(this.tokenKey);
   }
 
-  register(name: any,lastName:any,email:any,phone:any,dateofbirth:any,role:any,userName:any,password:any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/users/register`, {name,lastName,userName,email,password,phone,dateofbirth,role}).pipe(
-      tap(response => console.log('Register response:', response)),
-      catchError(error => {
-        console.error('Register error:', error);
-        return throwError(error);
-      })
-    );
-  }
+
 
   getToken(): string | null {
 

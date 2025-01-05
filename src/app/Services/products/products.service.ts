@@ -4,43 +4,47 @@ import { Observable } from 'rxjs';
 import { Product } from 'src/app/products/models/products';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:3000/api/v1/products';
-  isLoading: boolean = false;
+  private baseUrl = 'http://localhost:8080/api/produits'; // Update the base URL to match Spring Boot API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAllFeaturedProducts(): Observable<Product[]> {
-    const url = `${this.baseUrl}/get/featured`;
-    return this.http.get<Product[]>(url);
-  }
-
-  getProduct(productId: any): Observable<Product> {
-    this.isLoading = true;
-    const url = `${this.baseUrl}/${productId}`;
-    return this.http.get<Product>(url);
-  }
-
+  // Fetch all products
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.baseUrl);
   }
 
-  addProduct(productData: FormData,authoke:string): Observable<any> {
-    const token = sessionStorage.getItem('auth_token');
-    
+  // Fetch product by ID
+  getProduct(productId: number): Observable<Product> {
+    const url = `${this.baseUrl}/${productId}`;
+    return this.http.get<Product>(url);
+  }
 
-
-    if (!token) {
-      throw new Error('Authentication token not found');
-    }
-
+  // Add new product with images
+  addProduct(productData: FormData, token: string): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
+    return this.http.post(this.baseUrl, productData, { headers });
+  }
+  getAllFeaturedProducts(){}
+  // Update an existing product
+  updateProduct(productId: number, productDetails: Product, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.baseUrl}/${productId}`;
+    return this.http.put(url, productDetails, { headers });
+  }
 
-    const url = `${this.baseUrl}/add_new_product`;
-    return this.http.post(url, productData, { headers });
+  // Delete a product by ID
+  deleteProduct(productId: number, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.baseUrl}/${productId}`;
+    return this.http.delete(url, { headers });
   }
 }

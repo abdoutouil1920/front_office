@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private productService: ProductService,private router: Router) { }
 
   getAllFeaturedProducts(): void {
-    this.productService.getAllFeaturedProducts().subscribe(
+   /* this.productService.getAllFeaturedProducts().subscribe(
       (response: Product[]) => {
         this.product = response;
         console.log('Featured Products:', this.product);
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
       (error) => {
         console.error('Error fetching featured products:', error);
       }
-    );
+    );*/
   }
 
   navigateTo(page: string): void {

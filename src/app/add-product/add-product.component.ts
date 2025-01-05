@@ -38,7 +38,7 @@ export class AddProductComponent implements OnInit {
       images: [null, Validators.required],
       oldPrice: ['', Validators.required],
       newPrice: ['', Validators.required],
-      timing: ['', Validators.required],
+      dateCreated: ['', Validators.required],
       category: ['', Validators.required],
       tot_quantity: ['', Validators.required],
 
@@ -68,11 +68,19 @@ export class AddProductComponent implements OnInit {
   }
 
   handleImageInput(event: any) {
-    this.image = event.target.files[0];
+    const files = event.target.files;
+    if (files.length > 0) {
+      this.image = files[0]; // Assign the first selected file
+      this.productForm.patchValue({ image: this.image }); // Update form control
+    }
   }
 
   handleImagesInput(event: any) {
-    this.images = Array.from(event.target.files);
+    const files = event.target.files;
+    if (files.length > 0) {
+      this.images = Array.from(files); // Assign all selected files
+      this.productForm.patchValue({ images: this.images }); // Update form control
+    }
   }
 
   submitForm() {
@@ -91,23 +99,40 @@ export class AddProductComponent implements OnInit {
       formData.append('images', this.images[0] as File);
       formData.append('oldPrice', this.productForm.get('oldPrice')?.value);
       formData.append('newPrice', this.productForm.get('newPrice')?.value);
-      formData.append('timing', this.productForm.get('timing')?.value);
+      formData.append('dateCreated', this.productForm.get('dateCreated')?.value);
       formData.append('category', this.productForm.get('category')?.value);
       formData.append('tot_quantity', this.productForm.get('tot_quantity')?.value);
       formData.append('user', this.user_id as string);
+
+      console.log('Form data being sent:');
+      formData.forEach((value, key) => {
+        console.log(`${key}:`, value);
+      });
+
       this.productService.addProduct(formData, admintoken).subscribe(
         response => {
           console.log('Product added successfully:', response);
           this.router.navigate(['/home']);
         },
         error => {
-          console.error('Adding error:', error);
-          // Handle error appropriately
+          console.error('Error adding product:', error);
         }
       );
     } else {
-      console.log('Form is invalid or authentication token is missing');
+      if (!this.productForm.valid) {
+        console.error('Form validation errors:', this.productForm.errors);
+        Object.keys(this.productForm.controls).forEach(key => {
+          const controlErrors = this.productForm.get(key)?.errors;
+          if (controlErrors) {
+            console.error(`Field "${key}" has validation errors:`, controlErrors);
+          }
+        });
+      }
+      if (!admintoken) {
+        console.error('Authentication token is missing.');
+      }
     }
   }
+
 
 }
